@@ -143,13 +143,13 @@
     <ClCompile Include="BlockControl.cpp" />
     <ClCompile Include="Marathon.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="MapControl.cpp" />
+    <ClCompile Include="임시.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockControl.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="block.h" />
-    <ClInclude Include="MapControl.h" />
+    <ClInclude Include="map.h" />
     <ClInclude Include="Marathon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -24,10 +24,10 @@
     <ClCompile Include="Menu.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="MapControl.cpp">
+    <ClCompile Include="Marathon.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Marathon.cpp">
+    <ClCompile Include="임시.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,10 +41,10 @@
     <ClInclude Include="block.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="MapControl.h">
+    <ClInclude Include="Marathon.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Marathon.h">
+    <ClInclude Include="map.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
