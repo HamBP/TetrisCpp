@@ -1,5 +1,6 @@
 #include <iostream>
 #include <windows.h>
+#include <conio.h>
 #include "Menu.h"
 #include "Marathon.h"
 
@@ -14,6 +15,9 @@ int main(void)
 	cursor.bVisible = 0;
 	cursor.dwSize = 1;
 	SetConsoleCursorInfo(handle, &cursor);
+
+	system("title Tetris (https://sjy_9484.blog.me/)");
+	system("color 70");
 
 	while (true)
 	{

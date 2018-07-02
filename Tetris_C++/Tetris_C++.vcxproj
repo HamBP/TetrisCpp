@@ -148,11 +148,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockControl.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="block.h" />
-    <ClInclude Include="map.h" />
+    <ClInclude Include="Block.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Marathon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

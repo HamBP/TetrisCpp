@@ -41,19 +41,22 @@
     <ClInclude Include="Menu.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="block.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Marathon.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="map.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

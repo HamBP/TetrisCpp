@@ -1,6 +1,6 @@
 #include "BlockControl.h"
-#include "block.h"
-#include "map.h"
+#include "Block.h"
+#include "Map.h"
 
 using namespace std;
 
@@ -101,6 +101,8 @@ void BlockControl::showMap()
 		for (x = 0; x < 12; ++x)
 			if (map[y][x * 2] == 9)
 				cout << "бр";
+			else if (map[y][x * 2] == 1)
+				cout << "бс";
 			else
 				cout << "  ";
 		cur.Y++;
@@ -113,6 +115,7 @@ void BlockControl::showBlock()
 	int empty = 0;
 
 	SetConsoleCursorPosition(handle, cur);
+	SetConsoleTextAttribute(handle, blockType);
 
 	for (y = 0; y < 4; ++y) {
 		for (x = 0; x < 4; ++x) {
