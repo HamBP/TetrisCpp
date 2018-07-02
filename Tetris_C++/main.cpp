@@ -1,7 +1,6 @@
 #include <iostream>
-#include <time.h>
+#include <windows.h>
 #include "Menu.h"
-#include "BlockControl.h"
 #include "Marathon.h"
 
 using namespace std;
@@ -9,7 +8,13 @@ using namespace std;
 int main(void)
 {
 	int choice;
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO cursor;
 	
+	cursor.bVisible = 0;
+	cursor.dwSize = 1;
+	SetConsoleCursorInfo(handle, &cursor);
+
 	while (true)
 	{
 		choice = show_menu();
