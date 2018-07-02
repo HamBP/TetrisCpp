@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="BlockControl.cpp" />
     <ClCompile Include="Marathon.cpp" />
@@ -148,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="BlockControl.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="block.h" />
     <ClInclude Include="map.h" />

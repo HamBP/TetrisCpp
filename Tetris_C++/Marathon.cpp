@@ -1,22 +1,10 @@
 #include <iostream>
-#include "BlockControl.h"
+#include "Game.h"
 
 void Play_marathon()
 {
-	int level;
-	BlockControl blockHandle;
+	Game game;
 
-	std::cout << "speed : ";
-	std::cin >> level;
-	system("cls");
-
-	blockHandle.Show_map();
-	blockHandle.Set_block();
-
-	blockHandle.Show_block();
-
-	while (true) {
-		blockHandle.Delay(level);
-		blockHandle.Down();
-	}
+	game.start();
+	game.play();
 }

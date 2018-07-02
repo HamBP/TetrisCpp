@@ -17,7 +17,6 @@ int main(void)
 		switch (choice) {
 		case menu::marathon:
 			Play_marathon();
-			system("pause");
 			break;
 		case menu::survival:
 			cout << "준비중입니다. " << endl;

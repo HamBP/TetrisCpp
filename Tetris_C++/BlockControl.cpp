@@ -1,4 +1,6 @@
 #include "BlockControl.h"
+#include "block.h"
+#include "map.h"
 
 using namespace std;
 
@@ -7,7 +9,7 @@ BlockControl::BlockControl()
 	cur = { 0, 0 };
 	handle = GetStdHandle(STD_OUTPUT_HANDLE);
 }
-bool BlockControl::Is_collisional_to_floor()
+bool BlockControl::isCollisionalToFloor()
 {
 	int x;
 
@@ -19,43 +21,43 @@ bool BlockControl::Is_collisional_to_floor()
 	}
 	return false;
 }
-void BlockControl::Spin_clockwise()
+void BlockControl::spin()
 {
-
+	cout << "spin";
 }
-void BlockControl::Spin_counterclockwise()
+void BlockControl::backSpin()
 {
-
+	cout << "backSpin";
 }
-void BlockControl::Drop()
+void BlockControl::drop()
 {
-
+	cout << "drop";
 }
-void BlockControl::Down()
+void BlockControl::down()
 {
 	cur.Y++;
-	if (Is_collisional_to_floor()) {
+	if (isCollisionalToFloor()) {
 		cur.Y--;
 		exit(1);
 	}
-	Erase_block();
-	Show_block();
+	eraseBlock();
+	showBlock();
 }
-void BlockControl::Move_left()
+void BlockControl::moveLeft()
 {
-
+	cout << "left";
 }
-void BlockControl::Move_right()
+void BlockControl::moveRight()
 {
-
+	cout << "right";
 }
-void BlockControl::Delay(int level)
+void BlockControl::delay(int level)
 {
 	int delay[20] = {500, 360, 260, 190, 140, 100, 75, 55, 40, 30, 22, 17, 12, 9, 7, 5, 4, 3, 2, 1};
 
 	Sleep(delay[level-1] * 10);
 }
-void BlockControl::Show_map()
+void BlockControl::showMap()
 {
 	int x, y;
 
@@ -73,7 +75,7 @@ void BlockControl::Show_map()
 		SetConsoleCursorPosition(handle, cur);
 	}
 }
-void BlockControl::Show_block()
+void BlockControl::showBlock()
 {
 	int y, x;
 	int empty = 0;
@@ -97,14 +99,14 @@ void BlockControl::Show_block()
 	}
 	cur.Y -= 4;
 }
-void BlockControl::Set_block()
+void BlockControl::setBlock()
 {
 	blockType = 0;//rand() / 7;
 	blockAngle = 0;
 	cur.X = 8;
 	cur.Y = 0;
 }
-void BlockControl::Erase_block()
+void BlockControl::eraseBlock()
 {
 	int i, j;
 

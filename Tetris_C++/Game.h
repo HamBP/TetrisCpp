@@ -1,13 +1,19 @@
 #pragma once
 
 #include "BlockControl.h"
+#include "Keyboard.h"
 
 using namespace std;
 
 class Game
 {
 private:
-	BlockControl handle;
+	BlockControl * bHandle;
+	Keyboard * kHandle;
 public:
-	void Start()
+	Game();
+	~Game();
+	void start();
+	void play();
+	bool isGameOver();
 };

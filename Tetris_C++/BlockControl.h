@@ -3,8 +3,9 @@
 #include <iostream>
 #include <windows.h>
 #include <ctime>
-#include "block.h"
-#include "map.h"
+
+//extern int block[7][4][4][4];
+//extern int map[21][24];
 
 class BlockControl
 {
@@ -16,16 +17,18 @@ private:
 	//bool Is_collisional_to_floor();
 public:
 	BlockControl();
-	bool Is_collisional_to_floor();
-	void Spin_clockwise();
-	void Spin_counterclockwise();
-	void Drop();
-	void Down();
-	void Move_left();
-	void Move_right();
-	void Delay(int level);
-	void Show_map();
-	void Show_block();
-	void Set_block();
-	void Erase_block();
+	bool isCollisionalToFloor();
+	bool isCollisionalToLeft();
+	bool isCollisionalToRight();
+	void spin();
+	void backSpin();
+	void drop();
+	void down();
+	void moveLeft();
+	void moveRight();
+	void delay(int level);
+	void showMap();
+	void showBlock();
+	void setBlock();
+	void eraseBlock();
 };
