@@ -14,7 +14,8 @@ int Keyboard::input()
 
 	kb = _getch();
 
-	if (kb != 224)
+	if (kb != 224) {
+		_getch();
 		switch (kb) {
 		case 90:
 		case 122:
@@ -24,6 +25,7 @@ int Keyboard::input()
 		default:
 			exit(1);
 		}
+	}
 
 	kb = _getch();
 	switch (kb) {

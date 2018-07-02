@@ -4,9 +4,6 @@
 #include <windows.h>
 #include <ctime>
 
-//extern int block[7][4][4][4];
-//extern int map[21][24];
-
 class BlockControl
 {
 private:
@@ -26,7 +23,6 @@ public:
 	void down();
 	void moveLeft();
 	void moveRight();
-	void delay(int level);
 	void showMap();
 	void showBlock();
 	void setBlock();

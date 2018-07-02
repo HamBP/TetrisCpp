@@ -10,10 +10,12 @@ class Game
 private:
 	BlockControl * bHandle;
 	Keyboard * kHandle;
+	int level;
 public:
 	Game();
 	~Game();
 	void start();
 	void play();
+	void delay(int level);
 	bool isGameOver();
 };

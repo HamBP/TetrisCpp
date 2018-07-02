@@ -8,54 +8,70 @@ BlockControl::BlockControl()
 {
 	cur = { 0, 0 };
 	handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	blockType = 0;
+	blockAngle = 0;
+	
 }
 bool BlockControl::isCollisionalToFloor()
 {
 	int x;
 
 	for (x = 0; x < 4; ++x) {
-		if (map[cur.Y + 2][cur.X + x * 2] && block[blockType][blockAngle][2][x * 2])
+		if (map[cur.Y + 3][cur.X + x * 2] && block[blockType][blockAngle][2][x * 2])
 			return true;
-		if (map[cur.Y + 3][cur.X + x * 2] != 0 && block[blockType][blockAngle][3][x * 2])
+		if (map[cur.Y + 4][cur.X + x * 2] != 0 && block[blockType][blockAngle][3][x * 2])
 			return true;
 	}
 	return false;
 }
+bool BlockControl::isCollisionalToLeft()
+{
+	return false;
+}
+bool BlockControl::isCollisionalToRight()
+{
+	return false;
+}
 void BlockControl::spin()
 {
-	cout << "spin";
+	blockAngle++;
+	blockAngle %= 4;
 }
 void BlockControl::backSpin()
 {
-	cout << "backSpin";
+	blockAngle += 3;
+	blockAngle %= 4;
 }
 void BlockControl::drop()
 {
-	cout << "drop";
+	cout << "drop" << endl;
 }
 void BlockControl::down()
 {
-	cur.Y++;
-	if (isCollisionalToFloor()) {
-		cur.Y--;
-		exit(1);
-	}
+	if (isCollisionalToFloor()) 
+		return;
+	
 	eraseBlock();
+	cur.Y++;
 	showBlock();
 }
 void BlockControl::moveLeft()
 {
-	cout << "left";
+	if (isCollisionalToLeft())
+		return;
+
+	eraseBlock();
+	cur.X -= 2;
+	showBlock();
 }
 void BlockControl::moveRight()
 {
-	cout << "right";
-}
-void BlockControl::delay(int level)
-{
-	int delay[20] = {500, 360, 260, 190, 140, 100, 75, 55, 40, 30, 22, 17, 12, 9, 7, 5, 4, 3, 2, 1};
+	if (isCollisionalToRight())
+		return;
 
-	Sleep(delay[level-1] * 10);
+	eraseBlock();
+	cur.X += 2;
+	showBlock();
 }
 void BlockControl::showMap()
 {
@@ -101,7 +117,7 @@ void BlockControl::showBlock()
 }
 void BlockControl::setBlock()
 {
-	blockType = 0;//rand() / 7;
+	blockType = 3;//rand() / 7;
 	blockAngle = 0;
 	cur.X = 8;
 	cur.Y = 0;

@@ -12,34 +12,49 @@ Game::~Game()
 }
 void Game::start()
 {
+	level = 7;
 	bHandle->showMap();
 	bHandle->setBlock();
 	bHandle->showBlock();
 }
 void Game::play()
 {
+	int i;
+
 	while (!isGameOver())
 	{
-		bHandle->delay(5);
-		bHandle->down();
-		if (_kbhit()) 
-		{
-			switch (kHandle->input()) {
-			case spin:
-				bHandle->spin();
-			case down:
-				bHandle->down();
-			case moveLeft:
-				bHandle->moveLeft();
-			case moveRight:
-				bHandle->moveRight();
-			case back:
-				bHandle->backSpin();
-			case drop:
-				bHandle->drop();
-			}
+		for (i = 0; i < 10; ++i) {
+			delay(level);
+			if (_kbhit())
+				switch (kHandle->input()) {
+				case spin:
+					bHandle->spin();
+					break;
+				case down:
+					bHandle->down();
+					break;
+				case moveLeft:
+					bHandle->moveLeft();
+					break;
+				case moveRight:
+					bHandle->moveRight();
+					break;
+				case back:
+					bHandle->backSpin();
+					break;
+				case drop:
+					bHandle->drop();
+					break;
+				}
 		}
+			bHandle->down();
 	}
+}
+void Game::delay(int level)
+{
+	int delay[20] = { 500, 360, 260, 190, 140, 100, 75, 55, 40, 30, 22, 17, 12, 9, 7, 5, 4, 3, 2, 1 };
+
+	Sleep(delay[level - 1]);
 }
 
 bool Game::isGameOver()
