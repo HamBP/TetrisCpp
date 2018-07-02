@@ -17,19 +17,35 @@ bool BlockControl::isCollisionalToFloor()
 	int x;
 
 	for (x = 0; x < 4; ++x) {
-		if (map[cur.Y + 3][cur.X + x * 2] && block[blockType][blockAngle][2][x * 2])
+		if (map[cur.Y + 3][cur.X + x * 2] && block[blockType][blockAngle][2][x])
 			return true;
-		if (map[cur.Y + 4][cur.X + x * 2] != 0 && block[blockType][blockAngle][3][x * 2])
+		if (map[cur.Y + 4][cur.X + x * 2] && block[blockType][blockAngle][3][x])
 			return true;
 	}
 	return false;
 }
 bool BlockControl::isCollisionalToLeft()
 {
+	int y;
+
+	for (y = 0; y < 4; ++y) {
+		if (map[cur.Y + y][cur.X - 2] && block[blockType][blockAngle][y][0])
+			return true;
+		if (map[cur.Y + y][cur.X] && block[blockType][blockAngle][y][1])
+			return true;
+	}
 	return false;
 }
 bool BlockControl::isCollisionalToRight()
 {
+	int y;
+
+	for (y = 0; y < 4; ++y) {
+		if (map[cur.Y + y][cur.X + 8] && block[blockType][blockAngle][y][3])
+			return true;
+		if (map[cur.Y + y][cur.X + 6] && block[blockType][blockAngle][y][2])
+			return true;
+	}
 	return false;
 }
 void BlockControl::spin()
