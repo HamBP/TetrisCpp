@@ -12,7 +12,7 @@ Game::~Game()
 }
 void Game::start()
 {
-	level = 7;
+	level = 10;
 	bHandle->showMap();
 	bHandle->setBlock();
 	bHandle->showBlock();

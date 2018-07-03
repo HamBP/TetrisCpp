@@ -10,7 +10,7 @@ BlockControl::BlockControl()
 	handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	blockType = 0;
 	blockAngle = 0;
-	
+	srand(time(NULL));
 }
 bool BlockControl::isCollisionalToFloor()
 {
@@ -50,8 +50,10 @@ bool BlockControl::isCollisionalToRight()
 }
 void BlockControl::spin()
 {
+	eraseBlock();
 	blockAngle++;
 	blockAngle %= 4;
+	showBlock();
 }
 void BlockControl::backSpin()
 {
@@ -60,13 +62,30 @@ void BlockControl::backSpin()
 }
 void BlockControl::drop()
 {
-	cout << "drop" << endl;
+	eraseBlock();
+	
+	while (!isCollisionalToFloor())
+		down();
+}
+void BlockControl::land()
+{
+	int x, y;
+
+	for (y = 0; y < 4; ++y)
+		for (x = 0; x < 4; ++x) 
+			if (block[blockType][blockAngle][y][x] != 0)
+				map[cur.Y + y][cur.X + x * 2] = blockType + 10;
+		
+	showMap();
+	setBlock();
+	showBlock();
 }
 void BlockControl::down()
 {
-	if (isCollisionalToFloor()) 
+	if (isCollisionalToFloor()) {
+		land();
 		return;
-	
+	}
 	eraseBlock();
 	cur.Y++;
 	showBlock();
@@ -101,7 +120,7 @@ void BlockControl::showMap()
 		for (x = 0; x < 12; ++x)
 			if (map[y][x * 2] == 9)
 				cout << "бр";
-			else if (map[y][x * 2] == 1)
+			else if (map[y][x * 2])
 				cout << "бс";
 			else
 				cout << "  ";
@@ -115,7 +134,7 @@ void BlockControl::showBlock()
 	int empty = 0;
 
 	SetConsoleCursorPosition(handle, cur);
-	SetConsoleTextAttribute(handle, blockType);
+	//SetConsoleTextAttribute(handle, blockType);
 
 	for (y = 0; y < 4; ++y) {
 		for (x = 0; x < 4; ++x) {
@@ -136,7 +155,7 @@ void BlockControl::showBlock()
 }
 void BlockControl::setBlock()
 {
-	blockType = 3;//rand() / 7;
+	blockType = rand() % 7;
 	blockAngle = 0;
 	cur.X = 8;
 	cur.Y = 0;

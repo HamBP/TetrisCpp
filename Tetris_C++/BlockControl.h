@@ -20,6 +20,7 @@ public:
 	void spin();
 	void backSpin();
 	void drop();
+	void land();
 	void down();
 	void moveLeft();
 	void moveRight();
