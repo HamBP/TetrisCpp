@@ -127,12 +127,16 @@ void BlockControl::showMap()
 	cur.Y = 0;
 	SetConsoleCursorPosition(handle, cur);
 
-	for (y = 0; y < 21; ++y) {
-		for (x = 0; x < 12; ++x)
-			if (map[y][x * 2] == 9)
+	for (y = 0; y < 22; ++y) {
+		for (x = 0; x < 14; ++x)
+			if (map[y][x * 2] == 9) {
+				SetConsoleTextAttribute(handle, map[y][x * 2]);
 				cout << "бр";
-			else if (map[y][x * 2])
+			}
+			else if (map[y][x * 2]) {
+				SetConsoleTextAttribute(handle, map[y][x * 2] - 9);
 				cout << "бс";
+			}
 			else
 				cout << "  ";
 		cur.Y++;
@@ -144,17 +148,23 @@ void BlockControl::showBlock()
 	int y, x;
 
 	SetConsoleCursorPosition(handle, cur);
-	//SetConsoleTextAttribute(handle, blockType);
+	SetConsoleTextAttribute(handle, blockType+1);
 
 	for (y = 0; y < 4; ++y) {
 		for (x = 0; x < 4; ++x) {
-			if (block[blockType][blockAngle][y][x]) 
+			if (block[blockType][blockAngle][y][x]) {
+				SetConsoleTextAttribute(handle, blockType + 1);
 				cout << "бс";
+			}
 			else {
-				if (map[cur.Y][cur.X + x * 2] == 9)
+				if (map[cur.Y][cur.X + x * 2] == 9) {
+					SetConsoleTextAttribute(handle, map[y][cur.X + x * 2]);
 					cout << "бр";
-				else if (map[cur.Y][cur.X + x * 2])
+				}
+				else if (map[cur.Y][cur.X + x * 2]) {
+					SetConsoleTextAttribute(handle, map[y][cur.X + x * 2] - 9);
 					cout << "бс";
+				}
 				else
 					cout << "  ";
 			}
@@ -168,7 +178,7 @@ void BlockControl::setBlock()
 {
 	blockType = rand() % 7;
 	blockAngle = 0;
-	cur.X = 8;
+	cur.X = 10;
 	cur.Y = 0;
 }
 void BlockControl::eraseBlock()
@@ -180,10 +190,14 @@ void BlockControl::eraseBlock()
 	for (y = 0; y < 4; ++y) 
 	{
 		for (x = 0; x < 4; ++x)
-			if (map[cur.Y][cur.X + x * 2] == 9)
+			if (map[cur.Y][cur.X + x * 2] == 9) {
+				SetConsoleTextAttribute(handle, map[cur.Y][cur.X + x * 2]);
 				cout << "бр";
-			else if (map[cur.Y][cur.X + x * 2])
+			}
+			else if (map[cur.Y][cur.X + x * 2]) {
+				SetConsoleTextAttribute(handle, map[cur.Y][cur.X + x * 2] - 9);
 				cout << "бс";
+			}
 			else
 				cout << "  ";
 		cur.Y++;
@@ -196,13 +210,13 @@ void BlockControl::checkLine()
 	int x, y;
 	int line = 0;
 
-	for (y = 19; y > 0 + line; --y)
-		for (x = 2; x < 22; x += 2)
+	for (y = 20; y > 0 + line; --y)
+		for (x = 4; x < 24; x += 2)
 		{
 			if (!map[y + line][x])
 				break;
 
-			if (x == 20) {
+			if (x == 22) {
 				clearLine(y + line);
 				line++;
 			}
@@ -219,6 +233,6 @@ void BlockControl::dropLine(int y)
 {
 	int x;
 
-	for (x = 2; x < 22; x += 2)
+	for (x = 4; x < 24; x += 2)
 		map[y+1][x] = map[y][x];
 }
