@@ -10,13 +10,16 @@ BlockControl::BlockControl()
 	handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	blockType = 0;
 	blockAngle = 0;
-	srand(time(NULL));
+	srand((int)time(NULL));
 }
 bool BlockControl::isCollisionalToFloor()
 {
 	int x;
 
-	for (x = 0; x < 4; ++x) {
+	for (x = 0; x < 4; ++x) 
+	{
+		if (map[cur.Y + 2][cur.X + x * 2] && block[blockType][blockAngle][1][x])
+			return true;
 		if (map[cur.Y + 3][cur.X + x * 2] && block[blockType][blockAngle][2][x])
 			return true;
 		if (map[cur.Y + 4][cur.X + x * 2] && block[blockType][blockAngle][3][x])
@@ -28,10 +31,13 @@ bool BlockControl::isCollisionalToLeft()
 {
 	int y;
 
-	for (y = 0; y < 4; ++y) {
+	for (y = 0; y < 4; ++y) 
+	{
 		if (map[cur.Y + y][cur.X - 2] && block[blockType][blockAngle][y][0])
 			return true;
 		if (map[cur.Y + y][cur.X] && block[blockType][blockAngle][y][1])
+			return true;
+		if (map[cur.Y + y][cur.X + 2] && block[blockType][blockAngle][y][2])
 			return true;
 	}
 	return false;
@@ -45,6 +51,8 @@ bool BlockControl::isCollisionalToRight()
 			return true;
 		if (map[cur.Y + y][cur.X + 6] && block[blockType][blockAngle][y][2])
 			return true;
+		if (map[cur.Y + y][cur.X + 4] && block[blockType][blockAngle][y][1])
+			return true;
 	}
 	return false;
 }
@@ -57,8 +65,10 @@ void BlockControl::spin()
 }
 void BlockControl::backSpin()
 {
+	eraseBlock();
 	blockAngle += 3;
 	blockAngle %= 4;
+	showBlock();
 }
 void BlockControl::drop()
 {
