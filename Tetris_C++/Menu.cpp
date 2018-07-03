@@ -16,6 +16,18 @@ int show_menu()
 	cout << "│" << menu::exit << ". 종료\t\t    │" << endl;
 	cout << "└───────────────────────────┘" << endl;
 
+	cout << endl << endl << "	조작키" << endl << endl;
+	cout << "왼쪽 이동       : ← " << endl;
+	cout << "오른쪽 이동     : → " << endl;
+	cout << "시계방향 회전   : ↑ " << endl;
+	cout << "반시계방향 회전 : Z " << endl;
+	cout << "하드 드랍       : space " << endl;
+	cout << "소프트 드랍     : ↓ " << endl;
+
+	cout << endl << endl;
+	cout << "┌     버그 발견시     ┐" << endl;
+	cout << "└  sjy_9484@naver.com ┘" << endl;
+
 	select = _getch() - '0';
 	_getch();
 
