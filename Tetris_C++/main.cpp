@@ -8,8 +8,8 @@ using namespace std;
 
 int main(void)
 {
-	int choice;
-	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	int choice;											
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);	// 함수로 묶어서 처리할 것
 	CONSOLE_CURSOR_INFO cursor;
 	
 	cursor.bVisible = 0;

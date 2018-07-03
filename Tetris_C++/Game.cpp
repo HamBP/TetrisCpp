@@ -77,7 +77,7 @@ void Game::showGameOver()
 	system("color 70");
 	cout << "GAME OVER" << endl;
 }
-void Game::showScore()
+void Game::showScore()			// Marathon 클래스로 옮기는 게 적합함
 {
 	SetConsoleTextAttribute(handle, 2);
 	SetConsoleCursorPosition(handle, { 30, 16 });
