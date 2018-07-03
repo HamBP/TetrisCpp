@@ -61,6 +61,7 @@ void BlockControl::spin()
 	eraseBlock();
 	blockAngle++;
 	blockAngle %= 4;
+	canSpin();
 	showBlock();
 }
 void BlockControl::backSpin()
@@ -68,6 +69,7 @@ void BlockControl::backSpin()
 	eraseBlock();
 	blockAngle += 3;
 	blockAngle %= 4;
+	canSpin();
 	showBlock();
 }
 int BlockControl::drop()
@@ -134,7 +136,7 @@ void BlockControl::showMap()
 	cur.Y = 0;
 	SetConsoleCursorPosition(handle, cur);
 
-	for (y = 0; y < 22; ++y) {
+	for (y = 0; y < 23; ++y) {
 		for (x = 0; x < 14; ++x)
 			if (map[y][x * 2] == 9) {
 				SetConsoleTextAttribute(handle, map[y][x * 2]);
@@ -255,4 +257,24 @@ bool BlockControl::isGameOver()
 				return true;
 
 	return false;
+}
+void BlockControl::canSpin()				// 예외 상황이 많음, T스핀이나 회전 불가능한 경우도 고려해 업데이트 필요
+{
+	int x, y;
+
+	for (y = 1; y < 3; ++y)					// 가로로 삽입 됐을 경우
+		for (x = 0; x < 4; x += 3)
+			if (block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2]) 
+				cur.X += x ? (-2) : (2);	// 왼쪽으로 삽입 됐을 경우 오른쪽으로 이동, 반대의 경우엔 반대 방향으로
+			
+	if (blockType == 1)						// 1자 모양 블록일 때 2칸 깊이로 삽입되는 경우를 고려
+		for (y = 1; y < 3; ++y)
+			for (x = 0; x < 4; x += 3)
+				if (block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2])
+					cur.X += x ? (-2) : (2);
+
+	for (x = 1; x < 3; ++x)					// 세로로 삽입 됐을 경우
+		for (y = 2; y < 4; ++y)
+			if (block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2])
+				cur.Y--;
 }

@@ -31,4 +31,5 @@ public:
 	void showBlock();
 	void setBlock();
 	bool isGameOver();
+	void canSpin();
 };
