@@ -18,7 +18,7 @@ int main(void)
 
 	system("title Tetris (https://sjy_9484.blog.me/)");
 	system("color 70");
-	system("mode con: cols=80 lines=30");
+	system("mode con: cols=50 lines=25");
 
 	while (true)
 	{

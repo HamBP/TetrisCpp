@@ -1,7 +1,8 @@
 #include "Game.h"
 
-Game::Game()
+Game::Game() : clearLine(0), score(0)
 {
+	handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	bHandle = new BlockControl();
 	kHandle = new Keyboard();
 }
@@ -20,34 +21,48 @@ void Game::start()
 void Game::play()
 {
 	int i;
+	int line;
 
-	while (!isGameOver())
+	try 
 	{
-		for (i = 0; i < 10; ++i) {
-			delay(level);
-			if (_kbhit())
-				switch (kHandle->input()) {
-				case spin:
-					bHandle->spin();
-					break;
-				case down:
-					bHandle->down();
-					break;
-				case moveLeft:
-					bHandle->moveLeft();
-					break;
-				case moveRight:
-					bHandle->moveRight();
-					break;
-				case back:
-					bHandle->backSpin();
-					break;
-				case drop:
-					bHandle->drop();
-					break;
-				}
+		while (true)
+		{
+			for (i = 0; i < 10; ++i) {
+				line = 0;
+				delay(level);
+				if (_kbhit())
+					switch (kHandle->input()) {
+					case spin:
+						bHandle->spin();
+						break;
+					case down:
+						line = bHandle->down();
+						break;
+					case moveLeft:
+						bHandle->moveLeft();
+						break;
+					case moveRight:
+						bHandle->moveRight();
+						break;
+					case back:
+						bHandle->backSpin();
+						break;
+					case drop:
+						line = bHandle->drop();
+						break;
+					}
+			}
+			line += bHandle->down();
+			clearLine += line;
+			score += line * level;
+			showScore();
 		}
-			bHandle->down();
+	}
+	catch (int over)
+	{
+		over;					// 경고 메시지 제거 용도
+		showGameOver();
+		Sleep(2500);
 	}
 }
 void Game::delay(int level)
@@ -56,8 +71,18 @@ void Game::delay(int level)
 
 	Sleep(delay[level - 1]);
 }
-
-bool Game::isGameOver()
+void Game::showGameOver()
 {
-	return false;
+	system("color 70");
+	cout << "GAME OVER" << endl;
+}
+void Game::showScore()
+{
+	SetConsoleTextAttribute(handle, 2);
+	SetConsoleCursorPosition(handle, { 30, 16 });
+	cout << "Game Level : " << level << endl;
+	SetConsoleCursorPosition(handle, { 30, 17 });
+	cout << "Clear Line : " << clearLine << endl;
+	SetConsoleCursorPosition(handle, { 30, 18 });
+	cout << "Score      : " << score << endl;
 }

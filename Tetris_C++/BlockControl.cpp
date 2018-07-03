@@ -70,36 +70,43 @@ void BlockControl::backSpin()
 	blockAngle %= 4;
 	showBlock();
 }
-void BlockControl::drop()
+int BlockControl::drop()
 {
-	eraseBlock();
-	
+	int line;
+
 	while (!isCollisionalToFloor())
-		down();
+		line = down();
+
+	return line;
 }
-void BlockControl::land()
+int BlockControl::land()
 {
 	int x, y;
+	int line;
 
 	for (y = 0; y < 4; ++y)
 		for (x = 0; x < 4; ++x) 
 			if (block[blockType][blockAngle][y][x] != 0)
 				map[cur.Y + y][cur.X + x * 2] = blockType + 10;
 		
-	checkLine();
+	line = checkLine();
 	showMap();
 	setBlock();
-	showBlock();
+	if (isGameOver())
+		throw (0);
+
+	return line;
 }
-void BlockControl::down()
+int BlockControl::down()
 {
-	if (isCollisionalToFloor()) {
-		land();
-		return;
-	}
+	if (isCollisionalToFloor())
+		return land();
+
 	eraseBlock();
 	cur.Y++;
 	showBlock();
+
+	return 0;
 }
 void BlockControl::moveLeft()
 {
@@ -179,6 +186,7 @@ void BlockControl::setBlock()
 	blockAngle = 0;
 	cur.X = 10;
 	cur.Y = 0;
+	showBlock();
 }
 void BlockControl::eraseBlock()
 {
@@ -204,7 +212,7 @@ void BlockControl::eraseBlock()
 	}
 	cur.Y -= 4;
 }
-void BlockControl::checkLine()
+int BlockControl::checkLine()
 {
 	int x, y;
 	int line = 0;
@@ -220,6 +228,8 @@ void BlockControl::checkLine()
 				line++;
 			}
 		}
+
+	return line;
 }
 void BlockControl::clearLine(int y)
 {
@@ -234,4 +244,15 @@ void BlockControl::dropLine(int y)
 
 	for (x = 4; x < 24; x += 2)
 		map[y+1][x] = map[y][x];
+}
+bool BlockControl::isGameOver()
+{
+	int x, y;
+
+	for (y = 1; y < 4; ++y)
+		for (x = 0; x < 4; ++x)
+			if (block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2])
+				return true;
+
+	return false;
 }

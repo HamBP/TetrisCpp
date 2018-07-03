@@ -14,20 +14,21 @@ private:
 	bool isCollisionalToFloor();
 	bool isCollisionalToLeft();
 	bool isCollisionalToRight();
+	int land();
+	void eraseBlock();
+	int checkLine();
+	void clearLine(int y);
+	void dropLine(int y);
 public:
 	BlockControl();
 	void spin();
 	void backSpin();
-	void drop();
-	void land();
-	void down();
+	int drop();
+	int down();
 	void moveLeft();
 	void moveRight();
 	void showMap();
 	void showBlock();
 	void setBlock();
-	void eraseBlock();
-	void checkLine();
-	void clearLine(int y);
-	void dropLine(int y);
+	bool isGameOver();
 };
