@@ -86,6 +86,7 @@ void BlockControl::land()
 			if (block[blockType][blockAngle][y][x] != 0)
 				map[cur.Y + y][cur.X + x * 2] = blockType + 10;
 		
+	checkLine();
 	showMap();
 	setBlock();
 	showBlock();
@@ -148,7 +149,7 @@ void BlockControl::showBlock()
 
 	for (y = 0; y < 4; ++y) {
 		for (x = 0; x < 4; ++x) {
-			if (block[blockType][blockAngle][y][x] == 1)
+			if (block[blockType][blockAngle][y][x] == 1) 
 				cout << "бс";
 			else {
 				cur.X += 2;
@@ -183,4 +184,35 @@ void BlockControl::eraseBlock()
 		SetConsoleCursorPosition(handle, cur);
 	}
 	cur.Y -= 4;
+}
+void BlockControl::checkLine()
+{
+	int x, y;
+	int line = 0;
+
+	for (y = 19; y > 0 + line; --y)
+		for (x = 2; x < 22; x += 2)
+		{
+			if (!map[y + line][x])
+				break;
+
+			if (x == 20) {
+				clearLine(y + line);
+				line++;
+			}
+		}
+}
+void BlockControl::clearLine(int y)
+{
+	int dropY;
+
+	for (dropY = y - 1; dropY > 0; --dropY)
+		dropLine(dropY);
+}
+void BlockControl::dropLine(int y)
+{
+	int x;
+
+	for (x = 2; x < 22; x += 2)
+		map[y+1][x] = map[y][x];
 }

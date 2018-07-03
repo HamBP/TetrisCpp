@@ -11,12 +11,11 @@ private:
 	HANDLE handle;
 	int blockType;
 	int blockAngle;
-	//bool Is_collisional_to_floor();
-public:
-	BlockControl();
 	bool isCollisionalToFloor();
 	bool isCollisionalToLeft();
 	bool isCollisionalToRight();
+public:
+	BlockControl();
 	void spin();
 	void backSpin();
 	void drop();
@@ -28,4 +27,7 @@ public:
 	void showBlock();
 	void setBlock();
 	void eraseBlock();
+	void checkLine();
+	void clearLine(int y);
+	void dropLine(int y);
 };
