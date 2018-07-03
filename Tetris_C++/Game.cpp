@@ -21,14 +21,14 @@ void Game::start()
 void Game::play()
 {
 	int i;
-	int line;
+	int cLine;
 
 	try 
 	{
 		while (true)
 		{
 			for (i = 0; i < 10; ++i) {
-				line = 0;
+				cLine = 0;
 				delay(level);
 				if (_kbhit())
 					switch (kHandle->input()) {
@@ -36,7 +36,7 @@ void Game::play()
 						bHandle->spin();
 						break;
 					case down:
-						line = bHandle->down();
+						cLine = bHandle->down();
 						break;
 					case moveLeft:
 						bHandle->moveLeft();
@@ -48,14 +48,15 @@ void Game::play()
 						bHandle->backSpin();
 						break;
 					case drop:
-						line = bHandle->drop();
+						cLine = bHandle->drop();
 						break;
 					}
 			}
-			line += bHandle->down();
-			clearLine += line;
-			score += line * level;
+			cLine += bHandle->down();
+			clearLine += cLine;
+			score += cLine * level;
 			showScore();
+			level = 10 + clearLine / 10;
 		}
 	}
 	catch (int over)
