@@ -148,7 +148,6 @@ void BlockControl::showBlock()
 	int y, x;
 
 	SetConsoleCursorPosition(handle, cur);
-	SetConsoleTextAttribute(handle, blockType+1);
 
 	for (y = 0; y < 4; ++y) {
 		for (x = 0; x < 4; ++x) {
@@ -158,11 +157,11 @@ void BlockControl::showBlock()
 			}
 			else {
 				if (map[cur.Y][cur.X + x * 2] == 9) {
-					SetConsoleTextAttribute(handle, map[y][cur.X + x * 2]);
+					SetConsoleTextAttribute(handle, map[cur.Y][cur.X + x * 2]);
 					cout << "бр";
 				}
 				else if (map[cur.Y][cur.X + x * 2]) {
-					SetConsoleTextAttribute(handle, map[y][cur.X + x * 2] - 9);
+					SetConsoleTextAttribute(handle, map[cur.Y][cur.X + x * 2] - 9);
 					cout << "бс";
 				}
 				else
