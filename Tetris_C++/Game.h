@@ -21,5 +21,5 @@ public:
 	void play();
 	void delay(int level);
 	void showGameOver();
-	void showScore();
+	virtual void showScore();
 };

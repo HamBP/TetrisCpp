@@ -1,5 +1,5 @@
 #include "Game.h"
-
+						// 평균 속도 기능 추가하기 (블록, 라인)
 Game::Game() : clearLine(0), score(0)
 {
 	handle = GetStdHandle(STD_OUTPUT_HANDLE);

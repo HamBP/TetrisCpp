@@ -1,7 +1,7 @@
 #include "BlockControl.h"
 #include "Block.h"
 #include "Map.h"
-
+							// next 기능 추가하기, drop 최적화하기
 using namespace std;
 
 BlockControl::BlockControl() 
