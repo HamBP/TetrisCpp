@@ -72,7 +72,7 @@ void BlockControl::backSpin()
 }
 int BlockControl::drop()
 {
-	int line;
+	int line = 0;
 
 	while (!isCollisionalToFloor())
 		line = down();
