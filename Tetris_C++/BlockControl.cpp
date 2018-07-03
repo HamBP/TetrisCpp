@@ -142,23 +142,23 @@ void BlockControl::showMap()
 void BlockControl::showBlock()
 {
 	int y, x;
-	int empty = 0;
 
 	SetConsoleCursorPosition(handle, cur);
 	//SetConsoleTextAttribute(handle, blockType);
 
 	for (y = 0; y < 4; ++y) {
 		for (x = 0; x < 4; ++x) {
-			if (block[blockType][blockAngle][y][x] == 1) 
+			if (block[blockType][blockAngle][y][x]) 
 				cout << "бс";
 			else {
-				cur.X += 2;
-				empty += 2;
-				SetConsoleCursorPosition(handle, cur);
+				if (map[cur.Y][cur.X + x * 2] == 9)
+					cout << "бр";
+				else if (map[cur.Y][cur.X + x * 2])
+					cout << "бс";
+				else
+					cout << "  ";
 			}
 		}
-		cur.X -= empty;
-		empty = 0;
 		cur.Y++;
 		SetConsoleCursorPosition(handle, cur);
 	}
@@ -173,13 +173,19 @@ void BlockControl::setBlock()
 }
 void BlockControl::eraseBlock()
 {
-	int i, j;
+	int x, y;
 
 	SetConsoleCursorPosition(handle, cur);
 
-	for (i = 0; i < 4; ++i) {
-		for (j = 0; j < 4; ++j)
-			cout << "  ";
+	for (y = 0; y < 4; ++y) 
+	{
+		for (x = 0; x < 4; ++x)
+			if (map[cur.Y][cur.X + x * 2] == 9)
+				cout << "бр";
+			else if (map[cur.Y][cur.X + x * 2])
+				cout << "бс";
+			else
+				cout << "  ";
 		cur.Y++;
 		SetConsoleCursorPosition(handle, cur);
 	}
