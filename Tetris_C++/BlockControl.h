@@ -21,6 +21,7 @@ private:
 	void dropLine(int y);
 public:
 	BlockControl();
+	~BlockControl();
 	void spin();
 	void backSpin();
 	int drop();
@@ -32,4 +33,5 @@ public:
 	void setBlock();
 	bool isGameOver();
 	void canSpin();
+	void clearMap();
 };
