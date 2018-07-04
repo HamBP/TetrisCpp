@@ -18,7 +18,7 @@ public:
 	Game();
 	~Game();
 	void start();
-	void play();
+	virtual void play();
 	void delay(int level);
 	void showGameOver();
 	virtual void showScore();

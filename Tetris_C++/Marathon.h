@@ -1,3 +1,11 @@
 #pragma once
+#include "Game.h"
 
-void Play_marathon();
+class Marathon : public Game
+{
+private:
+public:
+	Marathon();
+	~Marathon();
+	void play();
+};

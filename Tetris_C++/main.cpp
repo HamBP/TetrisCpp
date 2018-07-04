@@ -8,17 +8,10 @@ using namespace std;
 
 int main(void)
 {
-	int choice;											
-	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);	// 함수로 묶어서 처리할 것
-	CONSOLE_CURSOR_INFO cursor;
-	
-	cursor.bVisible = 0;
-	cursor.dwSize = 1;
-	SetConsoleCursorInfo(handle, &cursor);
+	Game * game;
+	int choice;							
 
-	system("title Tetris (https://sjy_9484.blog.me/)");
-	system("color 70");
-	system("mode con: cols=50 lines=25");
+#include "Setting.h"
 
 	while (true)
 	{
@@ -26,7 +19,8 @@ int main(void)
 
 		switch (choice) {
 		case menu::marathon:
-			Play_marathon();
+			game = new Marathon();
+			game->play();
 			break;
 		case menu::survival:
 			cout << "준비중입니다. " << endl;
