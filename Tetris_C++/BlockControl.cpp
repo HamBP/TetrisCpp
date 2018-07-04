@@ -12,10 +12,6 @@ BlockControl::BlockControl()
 	blockAngle = 0;
 	srand((int)time(NULL));
 }
-BlockControl::~BlockControl()
-{
-	clearMap();
-}
 bool BlockControl::isCollisionalToFloor()
 {
 	int x;
@@ -281,12 +277,4 @@ void BlockControl::canSpin()				// 예외 상황이 많음, T스핀이나 회전 불가능한 경�
 		for (y = 2; y < 4; ++y)
 			if (block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2])
 				cur.Y--;
-}
-void BlockControl::clearMap()
-{
-	int y, x;
-
-	for (y = 1; y < 21; ++y)
-		for (x = 2; x < 12; ++x)
-			map[y][x * 2] = 0;
 }
