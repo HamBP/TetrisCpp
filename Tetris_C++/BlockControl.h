@@ -3,6 +3,7 @@
 #include <iostream>
 #include <windows.h>
 #include <ctime>
+#include <cstdio>
 
 class BlockControl
 {
@@ -21,10 +22,12 @@ private:
 	void dropLine(int y);
 public:
 	BlockControl();
+	~BlockControl();
 	void spin();
 	void backSpin();
 	int drop();
 	int down();
+	int virtualDown();
 	void moveLeft();
 	void moveRight();
 	void showMap();
@@ -32,4 +35,5 @@ public:
 	void setBlock();
 	bool isGameOver();
 	void canSpin();
+	void clearMap();
 };

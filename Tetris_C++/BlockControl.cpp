@@ -1,7 +1,7 @@
 #include "BlockControl.h"
 #include "Block.h"
 #include "Map.h"
-							// next 기능 추가하기, drop 최적화하기
+							// next 기능 추가하기
 using namespace std;
 
 BlockControl::BlockControl() 
@@ -11,6 +11,10 @@ BlockControl::BlockControl()
 	blockType = 0;
 	blockAngle = 0;
 	srand((int)time(NULL));
+}
+BlockControl::~BlockControl()
+{
+	clearMap();
 }
 bool BlockControl::isCollisionalToFloor()
 {
@@ -77,7 +81,7 @@ int BlockControl::drop()
 	int line = 0;
 
 	while (!isCollisionalToFloor())
-		line = down();
+		line = virtualDown();
 
 	return line;
 }
@@ -110,6 +114,15 @@ int BlockControl::down()
 
 	return 0;
 }
+int BlockControl::virtualDown()
+{
+	if (isCollisionalToFloor())
+		return land();
+
+	cur.Y++;
+	
+	return 0;
+}
 void BlockControl::moveLeft()
 {
 	if (isCollisionalToLeft())
@@ -137,17 +150,17 @@ void BlockControl::showMap()
 	SetConsoleCursorPosition(handle, cur);
 
 	for (y = 0; y < 23; ++y) {
-		for (x = 0; x < 14; ++x)
-			if (map[y][x * 2] == 9) {
-				SetConsoleTextAttribute(handle, map[y][x * 2]);
-				cout << "□";
+		for (x = 0; x < 28; x += 2)
+			if (map[y][x] == 9) {
+				SetConsoleTextAttribute(handle, map[y][x]);
+				printf("□");
 			}
-			else if (map[y][x * 2]) {
-				SetConsoleTextAttribute(handle, map[y][x * 2] - 9);
-				cout << "■";
+			else if (map[y][x]) {
+				SetConsoleTextAttribute(handle, map[y][x] - 9);
+				printf("■");
 			}
 			else
-				cout << "  ";
+				printf("  ");
 		cur.Y++;
 		SetConsoleCursorPosition(handle, cur);
 	}
@@ -162,19 +175,19 @@ void BlockControl::showBlock()
 		for (x = 0; x < 4; ++x) {
 			if (block[blockType][blockAngle][y][x]) {
 				SetConsoleTextAttribute(handle, blockType + 1);
-				cout << "■";
+				printf("■");
 			}
 			else {
 				if (map[cur.Y][cur.X + x * 2] == 9) {
 					SetConsoleTextAttribute(handle, map[cur.Y][cur.X + x * 2]);
-					cout << "□";
+					printf("□");
 				}
 				else if (map[cur.Y][cur.X + x * 2]) {
 					SetConsoleTextAttribute(handle, map[cur.Y][cur.X + x * 2] - 9);
-					cout << "■";
+					printf("■");
 				}
 				else
-					cout << "  ";
+					printf("  ");
 			}
 		}
 		cur.Y++;
@@ -277,4 +290,12 @@ void BlockControl::canSpin()				// 예외 상황이 많음, T스핀이나 회전 불가능한 경�
 		for (y = 2; y < 4; ++y)
 			if (block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2])
 				cur.Y--;
+}
+void BlockControl::clearMap()
+{
+	int y, x;
+
+	for (y = 1; y < 21; ++y)
+		for (x = 2; x < 12; ++x)
+			map[y][x * 2] = 0;
 }
