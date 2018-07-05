@@ -17,12 +17,12 @@ void Game::start()
 	level = 13;
 	bHandle->showMap();
 	bHandle->makeBlock();
-	bHandle->showBlock();
 }
 void Game::play()
 {
 	int i;
 	int cLine;
+	
 	showScore();
 	try 
 	{

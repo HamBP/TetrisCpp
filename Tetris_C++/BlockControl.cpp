@@ -4,7 +4,7 @@
 							// next 기능 추가하기
 using namespace std;
 
-BlockControl::BlockControl() 
+BlockControl::BlockControl() : gostY(0)
 {
 	cur = { 0, 0 };
 	handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -66,7 +66,7 @@ void BlockControl::spin()
 	blockAngle++;
 	blockAngle %= 4;
 	canSpin();
-	showBlock();
+	showBlock(true);
 }
 void BlockControl::backSpin()
 {
@@ -74,7 +74,7 @@ void BlockControl::backSpin()
 	blockAngle += 3;
 	blockAngle %= 4;
 	canSpin();
-	showBlock();
+	showBlock(true);
 }
 int BlockControl::drop()
 {
@@ -84,6 +84,38 @@ int BlockControl::drop()
 		virtualDown();
 
 	return land();
+}
+void BlockControl::gostDrop()
+{
+	gostY = cur.Y;
+
+	while (!isCollisionalToFloorG())
+		gostDown();
+}
+bool BlockControl::isCollisionalToFloorG()
+{
+	int x;
+
+	for (x = 0; x < 4; ++x)
+	{
+		if (map[gostY + 2][cur.X + x * 2] && block[blockType][blockAngle][1][x])
+			return true;
+		if (map[gostY + 3][cur.X + x * 2] && block[blockType][blockAngle][2][x])
+			return true;
+		if (map[gostY + 4][cur.X + x * 2] && block[blockType][blockAngle][3][x])
+			return true;
+	}
+
+	return false;
+}
+void BlockControl::gostDown()
+{
+	gostY++;
+}
+void BlockControl::showGost()
+{
+	gostDrop();
+	showBlock(false);
 }
 int BlockControl::land()
 {
@@ -98,7 +130,7 @@ int BlockControl::land()
 	line = checkLine();
 	showMap();
 	makeBlock();
-	showBlock();
+	showBlock(true);
 
 	if (isGameOver())
 		throw (0);
@@ -112,7 +144,7 @@ int BlockControl::down()
 
 	eraseBlock();
 	cur.Y++;
-	showBlock();
+	showBlock(true);
 
 	return 0;
 }
@@ -132,7 +164,7 @@ void BlockControl::moveLeft()
 
 	eraseBlock();
 	cur.X -= 2;
-	showBlock();
+	showBlock(true);
 }
 void BlockControl::moveRight()
 {
@@ -141,7 +173,7 @@ void BlockControl::moveRight()
 
 	eraseBlock();
 	cur.X += 2;
-	showBlock();
+	showBlock(true);
 }
 void BlockControl::showMap()
 {
@@ -167,107 +199,70 @@ void BlockControl::showMap()
 		SetConsoleCursorPosition(handle, cur);
 	}
 }
-void BlockControl::showBlock()
+void BlockControl::showBlock(bool real)
 {
 	int y, x;
+	
+	if (real)
+	{
+		SetConsoleCursorPosition(handle, cur);
 
-	SetConsoleCursorPosition(handle, cur);
-
-	for (y = 0; y < 4; ++y) {
-		for (x = 0; x < 4; ++x) {
-			if (block[blockType][blockAngle][y][x]) {
-				SetConsoleTextAttribute(handle, blockType + 1);
-				printf("■");
-			}
-			else {
-				if (map[cur.Y][cur.X + x * 2] == 9) {
-					SetConsoleTextAttribute(handle, map[cur.Y][cur.X + x * 2]);
-					printf("□");
-				}
-				else if (map[cur.Y][cur.X + x * 2]) {
-					SetConsoleTextAttribute(handle, map[cur.Y][cur.X + x * 2] - 9);
+		for (y = 0; y < 4; ++y) {
+			for (x = 0; x < 4; ++x) {
+				if (block[blockType][blockAngle][y][x]) {
+					SetConsoleTextAttribute(handle, blockType + 1);
 					printf("■");
 				}
-				else
-					printf("  ");
+				else {
+					if (map[cur.Y][cur.X + x * 2] == 9) {
+						SetConsoleTextAttribute(handle, map[cur.Y][cur.X + x * 2]);
+						printf("□");
+					}
+					else if (map[cur.Y][cur.X + x * 2]) {
+						SetConsoleTextAttribute(handle, map[cur.Y][cur.X + x * 2] - 9);
+						printf("■");
+					}
+					else
+						printf("  ");
+				}
 			}
+			cur.Y++;
+			SetConsoleCursorPosition(handle, cur);
 		}
-		cur.Y++;
-		SetConsoleCursorPosition(handle, cur);
 	}
-	cur.Y -= 4;
-}
-void BlockControl::showNext(int n1, int n2)
-{
-	short x, y;
+	else
+	{
+		SetConsoleCursorPosition(handle, { cur.X, gostY });
 
-	SetConsoleCursorPosition(handle, {28, 0});
-
-	for (y = 0; y < 4; ++y) {
-		for (x = 0; x < 4; ++x) {
-			if (block[n1][blockAngle][y][x]) {
-				SetConsoleTextAttribute(handle, n1 + 1);
-				printf("■");
+		for (y = 0; y < 4; ++y) {
+			for (x = 0; x < 4; ++x) {
+				if (block[blockType][blockAngle][y][x]) {
+					SetConsoleTextAttribute(handle, blockType + 1);
+					printf("▨");
+				}
+				else {
+					if (map[gostY][cur.X + x * 2] == 9) {
+						SetConsoleTextAttribute(handle, map[gostY][cur.X + x * 2]);
+						printf("□");
+					}
+					else if (map[gostY][cur.X + x * 2]) {
+						SetConsoleTextAttribute(handle, map[gostY][cur.X + x * 2] - 9);
+						printf("■");
+					}
+					else
+						printf("  ");
+				}
 			}
-			else
-				printf("  ");
+			gostY++;
+			SetConsoleCursorPosition(handle, { cur.X, gostY });
 		}
-		cur.Y++;
-		SetConsoleCursorPosition(handle, { 28, y + 1 });
 	}
-	for (y = 0; y < 4; ++y) {
-		for (x = 0; x < 4; ++x) {
-			if (block[n2][blockAngle][y][x]) {
-				SetConsoleTextAttribute(handle, n2 + 1);
-				printf("■");
-			}
-			else
-				printf("  ");
-		}
-		cur.Y++;
-		SetConsoleCursorPosition(handle, { 28, y + 5 });
+		
+	if (real) {
+		cur.Y -= 4;
+		showGost();
+		gostY -= 4;
 	}
-}
-void BlockControl::makeBlock()
-{
-	static int cBlock[3] = {0, setBlock(), setBlock()};
-	int i;
-
-	for (i = 0; i < 2; ++i)
-		cBlock[i] = cBlock[i + 1];
-	cBlock[2] = setBlock();
-	blockType = cBlock[0];
-	
-	showNext(cBlock[1], cBlock[2]);
-	
-	blockAngle = 0;
-	cur.X = 10;
-	cur.Y = 0;
-	showBlock();
-}
-int BlockControl::setBlock()
-{
-	static int rotation[7];
-	static int bCur = 0;
-	int blockT;
-	int i;
-	
-	if (bCur == 7)
-		bCur = 0;
-
-	blockT = rand() % 7;
-
-	for (i = 0; i < bCur; ++i)			// 다양한 블록이 나오도록 하는 알고리즘
-		if (blockT == rotation[i])		// 이번 로테이션에 같은 블록이 나왔다면
-		{
-			i = -1;
-			blockT = rand() % 7;		// 블록 재설정
-		}
-
-	rotation[bCur] = blockT;
-	bCur++;
-
-	return blockT;
 }
 void BlockControl::eraseBlock()
 {
@@ -292,6 +287,109 @@ void BlockControl::eraseBlock()
 		SetConsoleCursorPosition(handle, cur);
 	}
 	cur.Y -= 4;
+
+	eraseGostBlock();
+}
+void BlockControl::eraseGostBlock()
+{
+	int x, y;
+
+	SetConsoleCursorPosition(handle, { cur.X, gostY });
+
+	for (y = 0; y < 4; ++y)
+	{
+		for (x = 0; x < 4; ++x)
+			if (map[gostY][cur.X + x * 2] == 9) {
+				SetConsoleTextAttribute(handle, map[gostY][cur.X + x * 2]);
+				cout << "□";
+			}
+			else if (map[gostY][cur.X + x * 2]) {
+				SetConsoleTextAttribute(handle, map[gostY][cur.X + x * 2] - 9);
+				cout << "■";
+			}
+			else
+				cout << "  ";
+
+		gostY++;
+		SetConsoleCursorPosition(handle, {cur.X, gostY});
+	}
+}
+void BlockControl::showNext(int n1, int n2)
+{
+	short x, y;
+
+	SetConsoleCursorPosition(handle, {28, 0});
+
+	for (y = 0; y < 4; ++y) {
+		for (x = 0; x < 4; ++x) {
+			if (block[n1][0][y][x]) {
+				SetConsoleTextAttribute(handle, n1 + 1);
+				printf("■");
+			}
+			else
+				printf("  ");
+		}
+		cur.Y++;
+		SetConsoleCursorPosition(handle, { 28, y + 1 });
+	}
+	SetConsoleTextAttribute(handle, 9);
+	printf("□□□□");
+	SetConsoleCursorPosition(handle, { 28, 5 });
+	for (y = 0; y < 4; ++y) {
+		for (x = 0; x < 4; ++x) {
+			if (block[n2][0][y][x]) {
+				SetConsoleTextAttribute(handle, n2 + 1);
+				printf("■");
+			}
+			else
+				printf("  ");
+		}
+		cur.Y++;
+		SetConsoleCursorPosition(handle, { 28, y + 6 });
+	}
+	SetConsoleTextAttribute(handle, 9);
+	printf("□□□□");
+}
+void BlockControl::makeBlock()
+{
+	static int cBlock[3] = {0, setBlock(), setBlock()};
+	int i;
+
+	for (i = 0; i < 2; ++i)
+		cBlock[i] = cBlock[i + 1];
+	cBlock[2] = setBlock();
+	blockType = cBlock[0];
+	
+	showNext(cBlock[1], cBlock[2]);
+	
+	blockAngle = 0;
+	cur.X = 10;
+	cur.Y = 0;
+	showBlock(true);
+}
+int BlockControl::setBlock()
+{
+	static int rotation[7];
+	static int bCur = 0;
+	int blockT;
+	int i;
+	
+	if (bCur == 7)
+		bCur = 0;
+
+	blockT = rand() % 7;
+
+	for (i = 0; i < bCur; ++i)			// 다양한 블록이 나오도록 하는 알고리즘
+		if (blockT == rotation[i])		// 이번 로테이션에 같은 블록이 나왔다면
+		{
+			i = -1;
+			blockT = rand() % 7;		// 블록 재설정
+		}
+
+	rotation[bCur] = blockT;
+	bCur++;
+
+	return blockT;
 }
 int BlockControl::checkLine()
 {
