@@ -1,7 +1,8 @@
 #include "Game.h"
-						// 평균 속도 기능 추가하기 (블록, 라인)
+
 Game::Game() : clearLine(0), score(0)
 {
+	startT = (double)time(NULL);
 	handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	bHandle = new BlockControl();
 	kHandle = new Keyboard();
@@ -77,13 +78,20 @@ void Game::showGameOver()
 	system("color 70");
 	cout << "GAME OVER" << endl;
 }
-void Game::showScore()			// Marathon 클래스로 옮기는 게 적합함
+void Game::showScore()
 {
+	double minute;
+	double avg;
+	minute = (time(NULL) - startT) / 60.0;
+	avg = clearLine / minute;
+
 	SetConsoleTextAttribute(handle, 2);
 	SetConsoleCursorPosition(handle, { 30, 16 });
-	cout << "Game Level : " << level << endl;
+	cout << "Game Level      : " << level;
 	SetConsoleCursorPosition(handle, { 30, 17 });
-	cout << "Clear Line : " << clearLine << endl;
+	cout << "Clear Line      : " << clearLine;
 	SetConsoleCursorPosition(handle, { 30, 18 });
-	cout << "Score      : " << score << endl;
+	printf("Line Per Minute : %lf ", avg);
+	SetConsoleCursorPosition(handle, { 30, 19 });
+	cout << "Score           : " << score;
 }

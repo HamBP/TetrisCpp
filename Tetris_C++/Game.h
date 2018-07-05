@@ -13,8 +13,10 @@ private:
 	Keyboard * kHandle;
 	int level;
 	int clearLine;
+	float linePerM;
 	int score;
 	int next;
+	double startT;
 public:
 	Game();
 	~Game();
