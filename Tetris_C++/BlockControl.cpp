@@ -197,9 +197,49 @@ void BlockControl::showBlock()
 	}
 	cur.Y -= 4;
 }
+void BlockControl::showNext(int n1, int n2)
+{
+	short x, y;
+
+	SetConsoleCursorPosition(handle, {28, 0});
+
+	for (y = 0; y < 4; ++y) {
+		for (x = 0; x < 4; ++x) {
+			if (block[n1][blockAngle][y][x]) {
+				SetConsoleTextAttribute(handle, n1 + 1);
+				printf("бс");
+			}
+			else
+				printf("  ");
+		}
+		cur.Y++;
+		SetConsoleCursorPosition(handle, { 28, y + 1 });
+	}
+	for (y = 0; y < 4; ++y) {
+		for (x = 0; x < 4; ++x) {
+			if (block[n2][blockAngle][y][x]) {
+				SetConsoleTextAttribute(handle, n2 + 1);
+				printf("бс");
+			}
+			else
+				printf("  ");
+		}
+		cur.Y++;
+		SetConsoleCursorPosition(handle, { 28, y + 5 });
+	}
+}
 void BlockControl::makeBlock()
 {
-	blockType = setBlock();
+	static int cBlock[3] = {0, setBlock(), setBlock()};
+	int i;
+
+	for (i = 0; i < 2; ++i)
+		cBlock[i] = cBlock[i + 1];
+	cBlock[2] = setBlock();
+	blockType = cBlock[0];
+	
+	showNext(cBlock[1], cBlock[2]);
+	
 	blockAngle = 0;
 	cur.X = 10;
 	cur.Y = 0;
