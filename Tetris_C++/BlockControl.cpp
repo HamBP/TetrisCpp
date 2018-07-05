@@ -78,14 +78,12 @@ void BlockControl::backSpin()
 }
 int BlockControl::drop()
 {
-	int line = 0;
-
 	eraseBlock();
 
 	while (!isCollisionalToFloor())
-		line = virtualDown();
+		virtualDown();
 
-	return line;
+	return land();
 }
 int BlockControl::land()
 {
@@ -100,6 +98,8 @@ int BlockControl::land()
 	line = checkLine();
 	showMap();
 	makeBlock();
+	showBlock();
+
 	if (isGameOver())
 		throw (0);
 

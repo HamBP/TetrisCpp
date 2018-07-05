@@ -14,7 +14,7 @@ Game::~Game()
 }
 void Game::start()
 {
-	level = 1;
+	level = 13;
 	bHandle->showMap();
 	bHandle->makeBlock();
 	bHandle->showBlock();
@@ -23,21 +23,21 @@ void Game::play()
 {
 	int i;
 	int cLine;
-	
+	showScore();
 	try 
 	{
 		while (true)
 		{
+			cLine = 0;
 			for (i = 0; i < 10; ++i) {
-				cLine = 0;
 				delay(level);
-				while(_kbhit())
+				while (_kbhit())
 					switch (kHandle->input()) {
 					case spin:
 						bHandle->spin();
 						break;
 					case down:
-						cLine = bHandle->down();
+						cLine += bHandle->down();
 						break;
 					case moveLeft:
 						bHandle->moveLeft();
@@ -49,7 +49,7 @@ void Game::play()
 						bHandle->backSpin();
 						break;
 					case drop:
-						cLine = bHandle->drop();
+						cLine += bHandle->drop();
 						break;
 					}
 			}
@@ -57,19 +57,20 @@ void Game::play()
 			clearLine += cLine;
 			score += cLine * level;
 			showScore();
-			level = 10 + clearLine / 10;
+			level = 13 + clearLine / 10;
 		}
 	}
 	catch (int over)
 	{
 		over;					// 경고 메시지 제거 용도
 		showGameOver();
-		Sleep(2500);
+		Sleep(2000);
+		bHandle->clearMap();
 	}
 }
 void Game::delay(int level)
 {
-	int delay[20] = { 500, 360, 260, 190, 140, 100, 75, 55, 40, 30, 22, 17, 12, 9, 7, 5, 4, 3, 2, 1 };
+	int delay[20] = { 250, 180, 130, 145, 70, 50, 37, 27, 20, 15, 22, 17, 12, 9, 7, 5, 4, 3, 2, 1 };
 
 	Sleep(delay[level - 1]);
 }
