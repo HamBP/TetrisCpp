@@ -80,6 +80,8 @@ int BlockControl::drop()
 {
 	int line = 0;
 
+	eraseBlock();
+
 	while (!isCollisionalToFloor())
 		line = virtualDown();
 
@@ -97,7 +99,7 @@ int BlockControl::land()
 		
 	line = checkLine();
 	showMap();
-	setBlock();
+	makeBlock();
 	if (isGameOver())
 		throw (0);
 
@@ -195,13 +197,37 @@ void BlockControl::showBlock()
 	}
 	cur.Y -= 4;
 }
-void BlockControl::setBlock()
+void BlockControl::makeBlock()
 {
-	blockType = rand() % 7;
+	blockType = setBlock();
 	blockAngle = 0;
 	cur.X = 10;
 	cur.Y = 0;
 	showBlock();
+}
+int BlockControl::setBlock()
+{
+	static int rotation[7];
+	static int bCur = 0;
+	int blockT;
+	int i;
+	
+	if (bCur == 7)
+		bCur = 0;
+
+	blockT = rand() % 7;
+
+	for (i = 0; i < bCur; ++i)			// 다양한 블록이 나오도록 하는 알고리즘
+		if (blockT == rotation[i])		// 이번 로테이션에 같은 블록이 나왔다면
+		{
+			i = -1;
+			blockT = rand() % 7;		// 블록 재설정
+		}
+
+	rotation[bCur] = blockT;
+	bCur++;
+
+	return blockT;
 }
 void BlockControl::eraseBlock()
 {

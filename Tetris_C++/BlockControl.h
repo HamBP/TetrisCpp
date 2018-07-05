@@ -32,8 +32,9 @@ public:
 	void moveRight();
 	void showMap();
 	void showBlock();
-	void setBlock();
+	void makeBlock();
 	bool isGameOver();
 	void canSpin();
 	void clearMap();
+	int setBlock();
 };

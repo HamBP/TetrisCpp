@@ -15,7 +15,7 @@ void Game::start()
 {
 	level = 10;
 	bHandle->showMap();
-	bHandle->setBlock();
+	bHandle->makeBlock();
 	bHandle->showBlock();
 }
 void Game::play()

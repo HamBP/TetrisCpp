@@ -14,6 +14,7 @@ private:
 	int level;
 	int clearLine;
 	int score;
+	int next;
 public:
 	Game();
 	~Game();
