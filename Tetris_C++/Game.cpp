@@ -14,7 +14,7 @@ Game::~Game()
 }
 void Game::start()
 {
-	level = 10;
+	level = 1;
 	bHandle->showMap();
 	bHandle->makeBlock();
 	bHandle->showBlock();
@@ -23,7 +23,7 @@ void Game::play()
 {
 	int i;
 	int cLine;
-
+	
 	try 
 	{
 		while (true)
@@ -31,7 +31,7 @@ void Game::play()
 			for (i = 0; i < 10; ++i) {
 				cLine = 0;
 				delay(level);
-				if (_kbhit())
+				while(_kbhit())
 					switch (kHandle->input()) {
 					case spin:
 						bHandle->spin();
