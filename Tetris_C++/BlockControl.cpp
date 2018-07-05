@@ -202,9 +202,10 @@ void BlockControl::showMap()
 void BlockControl::showBlock(bool real)
 {
 	int y, x;
-	
+
 	if (real)
 	{
+		showGost();
 		SetConsoleCursorPosition(handle, cur);
 
 		for (y = 0; y < 4; ++y) {
@@ -222,13 +223,14 @@ void BlockControl::showBlock(bool real)
 						SetConsoleTextAttribute(handle, map[cur.Y][cur.X + x * 2] - 9);
 						printf("■");
 					}
-					else
+					else // 고스트 오버랩 되는 지점
 						printf("  ");
 				}
 			}
 			cur.Y++;
 			SetConsoleCursorPosition(handle, cur);
 		}
+		cur.Y -= 4;
 	}
 	else
 	{
@@ -256,11 +258,6 @@ void BlockControl::showBlock(bool real)
 			gostY++;
 			SetConsoleCursorPosition(handle, { cur.X, gostY });
 		}
-	}
-		
-	if (real) {
-		cur.Y -= 4;
-		showGost();
 		gostY -= 4;
 	}
 }
