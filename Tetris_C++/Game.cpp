@@ -57,10 +57,7 @@ void Game::play()
 			/* 현재 클럭 수를 가져옴. 전역 범위라 :: 써줌. */
 			clock_t now = ::clock(); 
 
-
-			//const int SPEED_CONSTANT = 2;
 			int elapsed = (now - start) / 10;
-			Sleep(5);
 
 			if (elapsed > properDelayTimeForLevel) {
 				/*
