@@ -3,6 +3,8 @@
 #include "BlockControl.h"
 #include "Keyboard.h"
 
+#define INITIAL_LEVEL 1
+
 using namespace std;
 
 class Game
@@ -22,7 +24,7 @@ public:
 	~Game();
 	void start();
 	virtual void play();
-	void delay(int level);
+	int delay(int level);
 	void showGameOver();
 	virtual void showScore();
 };
