@@ -14,7 +14,7 @@ Game::~Game()
 }
 void Game::start()
 {
-	level = 13;
+	level = 5;
 	bHandle->showMap();
 	bHandle->makeBlock();
 }
@@ -57,7 +57,7 @@ void Game::play()
 			clearLine += cLine;
 			score += cLine * level;
 			showScore();
-			level = 13 + clearLine / 10;
+			level = 5 + clearLine / 10;
 		}
 	}
 	catch (int over)
