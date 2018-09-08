@@ -21,6 +21,7 @@ int main(void)
 		case menu::marathon:
 			game = new Marathon();
 			game->play();
+			delete(game);
 			break;
 		case menu::survival:
 			cout << "준비중입니다. " << endl;

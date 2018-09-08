@@ -57,9 +57,10 @@ void Game::play()
 			/* 현재 클럭 수를 가져옴. 전역 범위라 :: 써줌. */
 			clock_t now = ::clock(); 
 
-			/* 속도 조절하려면 여기 건드리세요! 크게 하면 느려짐!*/
-			const int SPEED_CONSTANT = 2;
-			int elapsed = (now - start) / SPEED_CONSTANT;
+
+			//const int SPEED_CONSTANT = 2;
+			int elapsed = (now - start) / 10;
+			Sleep(5);
 
 			if (elapsed > properDelayTimeForLevel) {
 				/*
@@ -70,7 +71,8 @@ void Game::play()
 				clearLine += cLine;
 				score += cLine * level;
 				showScore();
-				level = INITIAL_LEVEL + (clearLine / 10);
+
+				if (level < 20)	level = INITIAL_LEVEL + (clearLine / 10);		// 20 is max level
 
 				cLine = 0;
 
