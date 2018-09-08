@@ -4,6 +4,8 @@
 #include <windows.h>
 #include <ctime>
 #include <cstdio>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
 
 class BlockControl
 {

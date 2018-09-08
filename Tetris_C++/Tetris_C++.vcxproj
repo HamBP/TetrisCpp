@@ -158,6 +158,10 @@
     <ClInclude Include="Marathon.h" />
     <ClInclude Include="Setting.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="LineClearSound.wav" />
+    <Media Include="LineClearSound1.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -63,4 +63,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="LineClearSound1.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="LineClearSound.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+  </ItemGroup>
 </Project>

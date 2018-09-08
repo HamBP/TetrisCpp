@@ -411,6 +411,8 @@ void BlockControl::clearLine(int y)
 {
 	int dropY;
 
+	PlaySound(TEXT("LineClearSound.wav"), NULL, SND_ASYNC);
+
 	for (dropY = y - 1; dropY > 0; --dropY)
 		dropLine(dropY);
 }
