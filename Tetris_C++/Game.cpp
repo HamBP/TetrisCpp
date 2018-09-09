@@ -65,13 +65,6 @@ void Game::play()
 				실행 후에는 현재 시간을 기록해 놓음.
 				*/
 				cLine += bHandle->down();
-				clearLine += cLine;
-				score += cLine * level;
-				showScore();
-
-				if (level < 20)	level = INITIAL_LEVEL + (clearLine / 10);		// 20 is max level
-
-				cLine = 0;
 
 				start = ::clock();
 			}
@@ -81,6 +74,12 @@ void Game::play()
 				추후 기능 확장과 유지보수를 위해 조건문을 그냥 사용함.
 				*/
 			}
+			score += cLine * level;
+			clearLine += cLine;
+			cLine = 0;
+
+			if (level < 20)	level = INITIAL_LEVEL + (clearLine / 10);		// 20 is max level
+			showScore();
 		}
 	}
 	catch (int over)
