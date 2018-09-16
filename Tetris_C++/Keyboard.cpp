@@ -1,11 +1,12 @@
 #include "Keyboard.h"
 
 /* z, Z		(122, 0), (90, 0)
- * space	(32, 0)
+ * space	(32)
  * up		(224, 72)
  * down		(224, 80)
  * left		(224, 75)
  * right	(224, 77)
+ * enter    (13)
  */
 
 int Keyboard::input()
@@ -22,8 +23,8 @@ int Keyboard::input()
 			return back;
 		case 32:
 			return drop;
-		default:
-			exit(1);
+		case 13:
+			return enter;
 		}
 	}
 
@@ -37,7 +38,5 @@ int Keyboard::input()
 		return moveLeft;
 	case 77:
 		return moveRight;
-	default:
-		exit(1);
 	}
 }

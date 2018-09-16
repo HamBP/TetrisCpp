@@ -12,12 +12,14 @@ Game::~Game()
 	delete bHandle;
 	delete kHandle;
 }
+// 게임이 시작될 때 한 번 필요함. 생성자에 합쳐도 될 듯 하다.
 void Game::start()
 {
 	level = INITIAL_LEVEL;
 	bHandle->showMap();
 	bHandle->makeBlock();
 }
+// 게임 실행에 대한 함수이다.
 void Game::play()
 {
 	/* 이 변수가 참조되는 순간은 키보드 입력이 있을 때, 맵이 업데이트될 때임.*/
@@ -90,17 +92,20 @@ void Game::play()
 		bHandle->clearMap();
 	}
 }
+// 게임 속도에 관한 함수이다.
 int Game::delay(int level)
 {
 	int delay[20] = { 250, 180, 130, 145, 70, 50, 37, 27, 20, 15, 22, 17, 12, 9, 7, 5, 4, 3, 2, 1 };
 
 	return (delay[level - 1]); // millis
 }
+// 게임오버 화면 출력
 void Game::showGameOver()
 {
 	system("color 70");
 	cout << "GAME OVER" << endl;
 }
+// 점수판 출력
 void Game::showScore()
 {
 	double minute;
