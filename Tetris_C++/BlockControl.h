@@ -5,11 +5,13 @@
 #include <ctime>
 #include <cstdio>
 #include <mmsystem.h>
+#include "Block.h"
 #pragma comment(lib, "winmm.lib")
 
 class BlockControl
 {
 private:
+	Block* basicBlock;
 	COORD cur;
 	short gostY;
 	HANDLE handle;

@@ -1,11 +1,11 @@
 #include "BlockControl.h"
-#include "Block.h"
 #include "Map.h"
 							// next 기능 추가하기
 using namespace std;
 
 BlockControl::BlockControl() : gostY(0)
 {
+	basicBlock = new Block();
 	cur = { 0, 0 };
 	handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	blockType = 0;
@@ -15,18 +15,19 @@ BlockControl::BlockControl() : gostY(0)
 BlockControl::~BlockControl()
 {
 	clearMap();
+	delete basicBlock;
 }
 bool BlockControl::isCollisionalToFloor()
 {
 	int x;
-
+	
 	for (x = 0; x < 4; ++x) 
 	{
-		if (map[cur.Y + 2][cur.X + x * 2] && block[blockType][blockAngle][1][x])
+		if (map[cur.Y + 2][cur.X + x * 2] && basicBlock->block[blockType][blockAngle][1][x])
 			return true;
-		if (map[cur.Y + 3][cur.X + x * 2] && block[blockType][blockAngle][2][x])
+		if (map[cur.Y + 3][cur.X + x * 2] && basicBlock->block[blockType][blockAngle][2][x])
 			return true;
-		if (map[cur.Y + 4][cur.X + x * 2] && block[blockType][blockAngle][3][x])
+		if (map[cur.Y + 4][cur.X + x * 2] && basicBlock->block[blockType][blockAngle][3][x])
 			return true;
 	}
 	return false;
@@ -37,11 +38,11 @@ bool BlockControl::isCollisionalToLeft()
 
 	for (y = 0; y < 4; ++y) 
 	{
-		if (map[cur.Y + y][cur.X - 2] && block[blockType][blockAngle][y][0])
+		if (map[cur.Y + y][cur.X - 2] && basicBlock->block[blockType][blockAngle][y][0])
 			return true;
-		if (map[cur.Y + y][cur.X] && block[blockType][blockAngle][y][1])
+		if (map[cur.Y + y][cur.X] && basicBlock->block[blockType][blockAngle][y][1])
 			return true;
-		if (map[cur.Y + y][cur.X + 2] && block[blockType][blockAngle][y][2])
+		if (map[cur.Y + y][cur.X + 2] && basicBlock->block[blockType][blockAngle][y][2])
 			return true;
 	}
 	return false;
@@ -51,11 +52,11 @@ bool BlockControl::isCollisionalToRight()
 	int y;
 
 	for (y = 0; y < 4; ++y) {
-		if (map[cur.Y + y][cur.X + 8] && block[blockType][blockAngle][y][3])
+		if (map[cur.Y + y][cur.X + 8] && basicBlock->block[blockType][blockAngle][y][3])
 			return true;
-		if (map[cur.Y + y][cur.X + 6] && block[blockType][blockAngle][y][2])
+		if (map[cur.Y + y][cur.X + 6] && basicBlock->block[blockType][blockAngle][y][2])
 			return true;
-		if (map[cur.Y + y][cur.X + 4] && block[blockType][blockAngle][y][1])
+		if (map[cur.Y + y][cur.X + 4] && basicBlock->block[blockType][blockAngle][y][1])
 			return true;
 	}
 	return false;
@@ -98,11 +99,11 @@ bool BlockControl::isCollisionalToFloorG()
 
 	for (x = 0; x < 4; ++x)
 	{
-		if (map[gostY + 2][cur.X + x * 2] && block[blockType][blockAngle][1][x])
+		if (map[gostY + 2][cur.X + x * 2] && basicBlock->block[blockType][blockAngle][1][x])
 			return true;
-		if (map[gostY + 3][cur.X + x * 2] && block[blockType][blockAngle][2][x])
+		if (map[gostY + 3][cur.X + x * 2] && basicBlock->block[blockType][blockAngle][2][x])
 			return true;
-		if (map[gostY + 4][cur.X + x * 2] && block[blockType][blockAngle][3][x])
+		if (map[gostY + 4][cur.X + x * 2] && basicBlock->block[blockType][blockAngle][3][x])
 			return true;
 	}
 
@@ -124,7 +125,7 @@ int BlockControl::land()
 
 	for (y = 0; y < 4; ++y)
 		for (x = 0; x < 4; ++x) 
-			if (block[blockType][blockAngle][y][x] != 0)
+			if (basicBlock->block[blockType][blockAngle][y][x] != 0)
 				map[cur.Y + y][cur.X + x * 2] = blockType + 10;
 		
 	line = checkLine();
@@ -210,7 +211,7 @@ void BlockControl::showBlock(bool real)
 
 		for (y = 0; y < 4; ++y) {
 			for (x = 0; x < 4; ++x) {
-				if (block[blockType][blockAngle][y][x]) {
+				if (basicBlock->block[blockType][blockAngle][y][x]) {
 					SetConsoleTextAttribute(handle, blockType + 1);
 					printf("■");
 				}
@@ -238,7 +239,7 @@ void BlockControl::showBlock(bool real)
 
 		for (y = 0; y < 4; ++y) {
 			for (x = 0; x < 4; ++x) {
-				if (block[blockType][blockAngle][y][x]) {
+				if (basicBlock->block[blockType][blockAngle][y][x]) {
 					SetConsoleTextAttribute(handle, blockType + 1);
 					printf("▨");
 				}
@@ -319,7 +320,7 @@ void BlockControl::showNext(int n1, int n2)
 
 	for (y = 0; y < 4; ++y) {
 		for (x = 0; x < 4; ++x) {
-			if (block[n1][0][y][x]) {
+			if (basicBlock->block[n1][0][y][x]) {
 				SetConsoleTextAttribute(handle, n1 + 1);
 				printf("■");
 			}
@@ -334,7 +335,7 @@ void BlockControl::showNext(int n1, int n2)
 	SetConsoleCursorPosition(handle, { 28, 5 });
 	for (y = 0; y < 4; ++y) {
 		for (x = 0; x < 4; ++x) {
-			if (block[n2][0][y][x]) {
+			if (basicBlock->block[n2][0][y][x]) {
 				SetConsoleTextAttribute(handle, n2 + 1);
 				printf("■");
 			}
@@ -429,7 +430,7 @@ bool BlockControl::isGameOver()
 
 	for (y = 1; y < 4; ++y)
 		for (x = 0; x < 4; ++x)
-			if (block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2])
+			if (basicBlock->block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2])
 				return true;
 
 	return false;
@@ -440,18 +441,18 @@ void BlockControl::canSpin()				// 예외 상황이 많음, T스핀이나 회전 불가능한 경�
 
 	for (y = 1; y < 3; ++y)					// 가로로 삽입 됐을 경우
 		for (x = 0; x < 4; x += 3)
-			if (block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2]) 
+			if (basicBlock->block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2]) 
 				cur.X += x ? (-2) : (2);	// 왼쪽으로 삽입 됐을 경우 오른쪽으로 이동, 반대의 경우엔 반대 방향으로
 			
 	if (blockType == 1)						// 1자 모양 블록일 때 2칸 깊이로 삽입되는 경우를 고려
 		for (y = 1; y < 3; ++y)
 			for (x = 0; x < 4; x += 3)
-				if (block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2])
+				if (basicBlock->block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2])
 					cur.X += x ? (-2) : (2);
 
 	for (x = 1; x < 3; ++x)					// 세로로 삽입 됐을 경우
 		for (y = 2; y < 4; ++y)
-			if (block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2])
+			if (basicBlock->block[blockType][blockAngle][y][x] && map[cur.Y + y][cur.X + x * 2])
 				cur.Y--;
 }
 void BlockControl::clearMap()
