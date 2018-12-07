@@ -110,15 +110,19 @@ void Game::showScore()
 {
 	double minute;
 	double avg;
+
 	minute = (time(NULL) - startT) / 60.0;
 	avg = clearLine / minute;
 
+	// 스코어 보드 위치를 바꾸려면 이 좌표를 수정
+	COORD scoreBoardPosition = { 30, 16 };
+	
 	SetConsoleTextAttribute(handle, 2);
-	SetConsoleCursorPosition(handle, { 30, 16 });
+	SetConsoleCursorPosition(handle, scoreBoardPosition); ++scoreBoardPosition.Y;
 	cout << "Game Level      : " << level;
-	SetConsoleCursorPosition(handle, { 30, 17 });
+	SetConsoleCursorPosition(handle, { 30, 17 }); ++scoreBoardPosition.Y;
 	cout << "Clear Line      : " << clearLine;
-	SetConsoleCursorPosition(handle, { 30, 18 });
+	SetConsoleCursorPosition(handle, { 30, 18 }); ++scoreBoardPosition.Y;
 	printf("Line Per Minute : %lf ", avg);
 	SetConsoleCursorPosition(handle, { 30, 19 });
 	cout << "Score           : " << score;
