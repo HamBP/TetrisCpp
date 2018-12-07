@@ -146,6 +146,7 @@
     <ClCompile Include="Marathon.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Setting.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockControl.h" />

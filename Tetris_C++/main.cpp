@@ -3,6 +3,8 @@
 #include <conio.h>
 #include "Menu.h"
 #include "Marathon.h"
+#include "Setting.h"
+
 		// 서바이벌 모드 업데이트 할 것
 using namespace std;
 
@@ -11,7 +13,7 @@ int main(void)
 	Game * game;
 	int choice;							
 
-#include "Setting.h"
+	Setting().setting();
 
 	while (true)
 	{
